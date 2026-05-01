@@ -699,7 +699,7 @@
                         <span id="cart-total" class="font-bold text-green-500 text-[22px]">$0.00</span>
                     </div>
 
-                    <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-md transition-colors text-[15px] mb-4 shadow-[0_4px_14px_0_rgba(70,163,88,0.39)] hover:shadow-[0_6px_20px_rgba(70,163,88,0.23)] hover:-translate-y-0.5 transition-all">Proceed To Checkout</button>
+                    <a href="checkout.html" class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-md transition-colors text-[15px] mb-4 shadow-[0_4px_14px_0_rgba(70,163,88,0.39)] hover:shadow-[0_6px_20px_rgba(70,163,88,0.23)] hover:-translate-y-0.5 transition-all text-center">Proceed To Checkout</a>
                     <button onclick="switchView('home')" class="w-full text-green-500 hover:text-green-600 font-medium py-2 transition-colors text-[15px]">Continue Shopping</button>
                 </div>
             </div>
@@ -949,6 +949,18 @@
             }
         }
 
+        function saveCart() {
+            localStorage.setItem('greenshop_cart', JSON.stringify(cartItems));
+        }
+
+        function loadCart() {
+            const stored = localStorage.getItem('greenshop_cart');
+            if (stored) {
+                cartItems = JSON.parse(stored);
+                updateCartBadge();
+            }
+        }
+
         function addToCart(productId, quantity = 1) {
             const product = productsData.find(p => p.id === productId);
             if (!product) return;
@@ -966,6 +978,7 @@
                     image: product.image
                 });
             }
+            saveCart();
             updateCartBadge();
             renderCart();
         }
@@ -982,6 +995,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
             const productCards = document.querySelectorAll('.grid > div.group');
             productCards.forEach((card) => {
                 const buttons = card.querySelectorAll('.absolute.bottom-4 button');
@@ -1053,6 +1067,7 @@
             if (item) {
                 item.quantity += change;
                 if (item.quantity < 1) item.quantity = 1;
+                saveCart();
                 renderCart();
                 updateCartBadge();
             }
@@ -1060,6 +1075,7 @@
 
         function removeItem(id) {
             cartItems = cartItems.filter(i => i.id !== id);
+            saveCart();
             renderCart();
             updateCartBadge();
         }

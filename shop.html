@@ -64,12 +64,12 @@
                         </svg>
                     </button>
                     <!-- Cart Icon -->
-                    <button class="text-gray-800 hover:text-green-500 transition-colors duration-300 relative group focus:outline-none">
+                    <button onclick="document.getElementById('cart-drawer').classList.remove('translate-x-full')" class="text-gray-800 hover:text-green-500 transition-colors duration-300 relative group focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                         </svg>
                         <span class="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-green-500 rounded-full border border-white">
-                            6
+                            3
                         </span>
                     </button>
                     <!-- Login Button -->
@@ -679,6 +679,52 @@
         </div>
     </div>
 
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-[70] translate-x-full transition-transform duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gray-900/50" onclick="document.getElementById('cart-drawer').classList.add('translate-x-full')"></div>
+        
+        <!-- Drawer Content -->
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl flex flex-col">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-5 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-gray-900">Shopping Cart (3)</h2>
+                <button onclick="document.getElementById('cart-drawer').classList.add('translate-x-full')" class="text-gray-400 hover:text-green-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Cart Items -->
+            <div id="cart-drawer-items" class="flex-1 overflow-y-auto p-5 space-y-4">
+                <!-- Dynamic content will be rendered here -->
+            </div>
+            
+            <!-- Footer -->
+            <div class="p-5 border-t border-gray-100 bg-gray-50">
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span id="cart-drawer-subtotal" class="font-bold">$0.00</span>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span class="text-gray-600">Shipping</span>
+                    <span class="font-bold">$16.00</span>
+                </div>
+                <div class="flex justify-between mb-5 text-lg font-bold">
+                    <span>Total</span>
+                    <span id="cart-drawer-total" class="text-green-500">$0.00</span>
+                </div>
+                <a href="checkout.html" class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded text-center transition-all duration-300 shadow-[0_4px_14px_0_rgba(70,163,88,0.39)] hover:shadow-[0_6px_20px_rgba(70,163,88,0.23)] hover:-translate-y-0.5">
+                    Proceed To Checkout
+                </a>
+                <a href="shop.html" onclick="document.getElementById('cart-drawer').classList.add('translate-x-full')" class="block w-full text-center text-gray-600 hover:text-green-500 text-sm mt-3 transition-colors">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         function switchTab(tab) {
             const loginTab = document.getElementById('tab-login');
@@ -719,6 +765,140 @@
                 fbBtnText.textContent = 'Register with Facebook';
             }
         }
+
+        // Cart functionality with localStorage
+        const productsData = [
+            { id: 1, name: "Barberton Daisy", price: 119, image: "images/1.png", sku: "1995751877966" },
+            { id: 2, name: "Angel Wing Begonia", price: 169, image: "images/2.png", sku: "1995751877967" },
+            { id: 3, name: "African Violet", price: 199, image: "images/3.png", sku: "1995751877968" },
+            { id: 4, name: "Beach Spider Lily", price: 129, image: "images/4.png", sku: "1995751877969" },
+            { id: 5, name: "Blushing Bromeliad", price: 139, image: "images/5.png", sku: "19957518757065" },
+            { id: 6, name: "Aluminum Plant", price: 179, image: "images/6.png", sku: "1995751877786" },
+            { id: 7, name: "Bird's Nest Fern", price: 99, image: "images/7.png", sku: "1995751877970" },
+            { id: 8, name: "Broadleaf Lady Palm", price: 59, image: "images/8.png", sku: "1995751877971" },
+            { id: 9, name: "Chinese Evergreen", price: 39, image: "images/9.png", sku: "1995751877972" },
+        ];
+
+        function getCartItems() {
+            try {
+                const stored = localStorage.getItem('greenshop_cart');
+                return stored ? JSON.parse(stored) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('greenshop_cart', JSON.stringify(cart));
+        }
+
+        function renderCartDrawer() {
+            const cartItems = getCartItems();
+            const container = document.getElementById('cart-drawer-items');
+            const subtotalEl = document.getElementById('cart-drawer-subtotal');
+            const totalEl = document.getElementById('cart-drawer-total');
+            const badgeEl = document.getElementById('cart-badge');
+
+            if (!container) return;
+
+            // Update badge
+            const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            if (badgeEl) badgeEl.textContent = totalQty;
+
+            // Update header count
+            const headerTitle = document.querySelector('#cart-drawer h2');
+            if (headerTitle) headerTitle.textContent = `Shopping Cart (${totalQty})`;
+
+            if (cartItems.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto mb-2 text-gray-300">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+                        <p class="text-sm">Your cart is empty</p>
+                    </div>
+                `;
+                if (subtotalEl) subtotalEl.textContent = '$0.00';
+                if (totalEl) totalEl.textContent = '$0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            container.innerHTML = '';
+
+            cartItems.forEach(item => {
+                const product = productsData.find(p => p.id === item.id);
+                if (!product) return;
+
+                const itemTotal = product.price * item.quantity;
+                subtotal += itemTotal;
+
+                container.innerHTML += `
+                    <div class="flex gap-4 pb-4 border-b border-gray-100">
+                        <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-contain bg-gray-50 rounded">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-gray-800">${product.name}</h4>
+                            <p class="text-xs text-gray-400 mb-2">SKU: ${product.sku}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-600">Qty: ${item.quantity}</span>
+                                <span class="text-green-500 font-bold">$${itemTotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-red-500 transition-colors self-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            });
+
+            const shipping = subtotal > 0 ? 16 : 0;
+            const total = subtotal + shipping;
+
+            if (subtotalEl) subtotalEl.textContent = '$' + subtotal.toFixed(2);
+            if (totalEl) totalEl.textContent = '$' + total.toFixed(2);
+        }
+
+        function removeFromCart(id) {
+            let cart = getCartItems();
+            cart = cart.filter(i => i.id !== id);
+            saveCart(cart);
+            renderCartDrawer();
+        }
+
+        function addToCart(productId, quantity = 1) {
+            let cart = getCartItems();
+            const existing = cart.find(i => i.id === productId);
+            if (existing) {
+                existing.quantity += quantity;
+            } else {
+                cart.push({ id: productId, quantity: quantity });
+            }
+            saveCart(cart);
+            renderCartDrawer();
+        }
+
+        // Render cart when drawer opens
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCartDrawer();
+
+            // Add click handlers to product cart buttons
+            document.querySelectorAll('.group .absolute.bottom-4 button:first-child').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const card = btn.closest('.group');
+                    const img = card.querySelector('img');
+                    if (img) {
+                        const match = img.src.match(/images\/(\d+)\.png/);
+                        if (match) {
+                            addToCart(parseInt(match[1]), 1);
+                            document.getElementById('cart-drawer').classList.remove('translate-x-full');
+                        }
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
