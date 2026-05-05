@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Greenshop</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        green: {
+                            500: '#46A358',
+                            600: '#3A8A4A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="images/logo-green.svg" alt="Greenshop Logo" class="h-8 w-auto">
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-green-500 transition-colors">Home</a>
+                    <a href="shop.html" class="text-gray-700 hover:text-green-500 transition-colors">Shop</a>
+                    <a href="wishlist.html" class="text-green-500 font-medium">Wishlist</a>
+                    <a href="#" class="text-gray-700 hover:text-green-500 transition-colors">Blog</a>
+                    <a href="#" class="text-gray-700 hover:text-green-500 transition-colors">About</a>
+                </nav>
+
+                <!-- Header Icons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <button class="text-gray-700 hover:text-green-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </button>
+
+                    <!-- Cart -->
+                    <a href="checkout.html" class="text-gray-700 hover:text-green-500 transition-colors relative group focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+                        <span id="cart-badge" class="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-green-500 rounded-full border border-white">0</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <button class="text-gray-700 hover:text-green-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 12.75c-2.948 0-5.874.846-8.499 2.368z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
+        <!-- Page Title -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Wishlist</h1>
+            <p class="text-gray-600">Browse your favorite items</p>
+        </div>
+
+        <!-- Wishlist Items -->
+        <div id="wishlist-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Empty State -->
+            <div id="empty-wishlist" class="col-span-full text-center py-16">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto mb-4 text-gray-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.098 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Your wishlist is empty</h3>
+                <p class="text-gray-500 mb-6">Add items to your wishlist to see them here</p>
+                <a href="shop.html" class="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#FBFBFB] pt-14 pb-6 mt-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <!-- Footer Start Content -->
+            <div class="w-full flex justify-center">
+                <img src="images/footer-start.png" alt="Footer Start" class="w-full h-auto object-contain">
+            </div>
+
+            <!-- Contact Info Bar -->
+            <div class="bg-[#ECF6EE] flex flex-col md:flex-row items-start md:items-center justify-between p-6 mt-10 gap-6 border-y border-green-200">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <img src="images/logo-green.svg" alt="Greenshop Logo" class="h-8 w-auto">
+                </div>
+                <!-- Address -->
+                <div class="flex items-center gap-3 text-gray-700 text-[14px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#46A358" class="w-6 h-6 flex-shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                    <p>70 West Buckingham Ave.<br>Farmingdale, NY 11735</p>
+                </div>
+                <!-- Email -->
+                <div class="flex items-center gap-3 text-gray-700 text-[14px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#46A358" class="w-6 h-6 flex-shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                    <p>contact@greenshop.com</p>
+                </div>
+                <!-- Phone -->
+                <div class="flex items-center gap-3 text-gray-700 text-[14px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#46A358" class="w-6 h-6 flex-shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.896-1.596-5.069-3.769-6.665-6.665l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                    </svg>
+                    <p>+88 01911 717 490</p>
+                </div>
+            </div>
+
+            <!-- Links & Social Media -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-10 border-b border-gray-200">
+                <!-- My Account -->
+                <div>
+                    <h3 class="font-bold text-[18px] text-gray-900 mb-4">My Account</h3>
+                    <ul class="space-y-3 text-[14px] text-gray-600">
+                        <li><a href="#" class="hover:text-green-500 transition-colors">My account</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Our stores</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Contact us</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Career</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Specials</a></li>
+                    </ul>
+                </div>
+                <!-- Help & Guide -->
+                <div>
+                    <h3 class="font-bold text-[18px] text-gray-900 mb-4">Help & Guide</h3>
+                    <ul class="space-y-3 text-[14px] text-gray-600">
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">How to Buy</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Shipping & Delivery</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Product Policy</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">How to Return</a></li>
+                    </ul>
+                </div>
+                <!-- Categories -->
+                <div>
+                    <h3 class="font-bold text-[18px] text-gray-900 mb-4">Categories</h3>
+                    <ul class="space-y-3 text-[14px] text-gray-600">
+                        <li><a href="#" class="hover:text-green-500 transition-colors">House Plants</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Potter Plants</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Seeds</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Small Plants</a></li>
+                        <li><a href="#" class="hover:text-green-500 transition-colors">Accessories</a></li>
+                    </ul>
+                </div>
+                <!-- Social Media & Payment -->
+                <div>
+                    <h3 class="font-bold text-[18px] text-gray-900 mb-4">Social Media</h3>
+                    <div class="mb-6 cursor-pointer hover:opacity-80 transition-opacity">
+                        <img src="images/media.png" alt="Social Media" class="w-auto h-auto max-w-full">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center pt-6 text-gray-600 text-[14px]">
+                <p>© 2026 GreenShop. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const productsData = [
+            { id: 1, name: "Barberton Daisy", price: 119, image: "images/1.png", sku: "1995751877966" },
+            { id: 2, name: "Angel Wing Begonia", price: 169, image: "images/2.png", sku: "1995751877967" },
+            { id: 3, name: "African Violet", price: 199, image: "images/3.png", sku: "1995751877968" },
+            { id: 4, name: "Beach Spider Lily", price: 129, image: "images/4.png", sku: "1995751877969" },
+            { id: 5, name: "Blushing Bromeliad", price: 139, image: "images/5.png", sku: "19957518757065" },
+            { id: 6, name: "Aluminum Plant", price: 179, image: "images/6.png", sku: "1995751877786" },
+            { id: 7, name: "Bird's Nest Fern", price: 99, image: "images/7.png", sku: "1995751877970" },
+            { id: 8, name: "Broadleaf Lady Palm", price: 59, image: "images/8.png", sku: "1995751877971" },
+            { id: 9, name: "Chinese Evergreen", price: 39, image: "images/9.png", sku: "1995751877972" },
+        ];
+
+        // Wishlist functions
+        function getWishlistItems() {
+            try {
+                const stored = localStorage.getItem('greenshop_wishlist');
+                return stored ? JSON.parse(stored) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveWishlist(wishlist) {
+            localStorage.setItem('greenshop_wishlist', JSON.stringify(wishlist));
+        }
+
+        function removeFromWishlist(productId) {
+            let wishlist = getWishlistItems();
+            wishlist = wishlist.filter(id => id !== productId);
+            saveWishlist(wishlist);
+            renderWishlist();
+        }
+
+        function addToCartFromWishlist(productId) {
+            // Get cart items
+            let cart = [];
+            try {
+                const stored = localStorage.getItem('greenshop_cart');
+                cart = stored ? JSON.parse(stored) : [];
+            } catch (e) {
+                cart = [];
+            }
+
+            const existing = cart.find(i => i.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ id: productId, quantity: 1 });
+            }
+
+            localStorage.setItem('greenshop_cart', JSON.stringify(cart));
+            
+            // Update cart badge
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                badge.textContent = totalItems;
+            }
+
+            // Show success message
+            const product = productsData.find(p => p.id === productId);
+            if (product) {
+                showNotification(`${product.name} added to cart!`);
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        function renderWishlist() {
+            const wishlistItems = getWishlistItems();
+            const container = document.getElementById('wishlist-items');
+            const emptyState = document.getElementById('empty-wishlist');
+
+            // Clear existing items (keep empty state)
+            const existingItems = container.querySelectorAll('.wishlist-item');
+            existingItems.forEach(el => el.remove());
+
+            if (wishlistItems.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            wishlistItems.forEach(productId => {
+                const product = productsData.find(p => p.id === productId);
+                if (!product) return;
+
+                const itemEl = document.createElement('div');
+                itemEl.className = 'wishlist-item bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300';
+                itemEl.innerHTML = `
+                    <div class="relative group">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <button onclick="removeFromWishlist(${product.id})" class="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800 mb-1">${product.name}</h3>
+                        <p class="text-sm text-gray-400 mb-3">SKU: ${product.sku}</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-lg font-bold text-green-500">$${product.price}</span>
+                            <div class="flex items-center text-yellow-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="0" class="w-4 h-4">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <span class="text-sm text-gray-600 ml-1">4.5</span>
+                            </div>
+                        </div>
+                        <button onclick="addToCartFromWishlist(${product.id})" class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2 rounded transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                container.insertBefore(itemEl, emptyState);
+            });
+        }
+
+        // Update cart badge
+        function updateCartBadge() {
+            try {
+                const cart = localStorage.getItem('greenshop_cart');
+                const cartItems = cart ? JSON.parse(cart) : [];
+                const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                const badge = document.getElementById('cart-badge');
+                if (badge) badge.textContent = totalItems;
+            } catch (e) {
+                console.error('Error updating cart badge:', e);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderWishlist();
+            updateCartBadge();
+        });
+    </script>
+</body>
+</html>
